@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "start": "node dist/server.js",
-    "build": "tsup src"
+    "build": "yarn install && tsup src"
   },
   "dependencies": {
     "@prisma/client": "4.12.0",
