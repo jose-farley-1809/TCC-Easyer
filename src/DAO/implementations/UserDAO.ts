@@ -1,4 +1,5 @@
 import { prisma } from "../../database";
+import { LoginUserDTO } from "../../useCases/user/login/dto";
 import { ResponseImplementation } from "../../utils/ResponseImplementation";
 import { IUserDAO } from "../interfaces/IUserDAO";
 import {hash, compare} from 'bcrypt';
@@ -26,8 +27,21 @@ export class UserDAO implements IUserDAO {
     fetch() {
         throw new Error("Method not implemented.");
     }
-    async login(data) {
-   
+    async login(data:LoginUserDTO) {
+        try {
+            let user = await prisma.user.findUnique({where:{email:data.email}})
+            if(!user) return new ResponseImplementation("User or password invalid", true)
+            let passwordIsvalid = await compare(data.password, user.password)
+            console.log(passwordIsvalid)
+            if(passwordIsvalid == true){
+                return new ResponseImplementation('User is logged', false)
+            }else{
+                return new ResponseImplementation("User or password invalid", true)
+            }
+        } catch (error) {
+            return new ResponseImplementation("There was an error on login", true, null)
+
+        }  
     }
     
 }
