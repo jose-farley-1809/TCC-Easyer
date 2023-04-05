@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "start": "node dist/server.js",
-    "build": "yarn install && tsup src"
+    "build": "yarn install && tsup src && prisma db push && prisma generate"
   },
   "dependencies": {
     "@prisma/client": "4.12.0",
